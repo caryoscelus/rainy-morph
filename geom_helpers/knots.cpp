@@ -63,8 +63,8 @@ Geom::Path knots_to_path(BezierKnots const& knots) {
         }
         old_tg = knot.tg2;
     }
+    builder.curveTo(old_tg, first_knot.tg1, first_knot.pos);
     if (knots.closed) {
-        builder.curveTo(old_tg, first_knot.tg1, first_knot.pos);
         builder.closePath();
     }
     builder.flush();

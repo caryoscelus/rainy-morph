@@ -23,12 +23,19 @@
 #include <geom_helpers/compare.h>
 #include <geom_helpers/knots.h>
 
-TEST_CASE("Converting path to knot list", "") {
-    auto svg = "m 27,173 c 187,-91 221,282 0,0 z";
-    auto path = Geom::parse_svg_path(svg).at(0);
+void test_convert(std::string const& svg) {
+    auto path = Geom::parse_svg_path(svg.c_str()).at(0);
     auto knots = Geom::path_to_knots(path);
-    REQUIRE(knots.size() == 1);
-    REQUIRE(knots.closed);
+    REQUIRE(knots.size() == path.size_open());
+    REQUIRE(knots.closed == path.closed());
     auto path_c = Geom::knots_to_path(knots);
-    REQUIRE(paths_almost_equal(path, path_c));
+    REQUIRE(Geom::paths_almost_equal(path, path_c));
+}
+
+TEST_CASE("Converting closed path to knot list", "[convert]") {
+    test_convert("m 27,173 c 187,-91 221,282 0,0 z");
+}
+
+TEST_CASE("Converting open path to knot list", "[convert]") {
+    test_convert("m 27,173 c 187,-91 221,282 0,0");
 }
