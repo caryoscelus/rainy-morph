@@ -1,6 +1,7 @@
 add_library(geom_helpers
     compare.cpp
     knots.cpp
+    split.cpp
 )
 
 target_include_directories(geom_helpers
