@@ -27,6 +27,8 @@ TEST_CASE("Converting path to knot list", "") {
     auto svg = "m 27,173 c 187,-91 221,282 0,0 z";
     auto path = Geom::parse_svg_path(svg).at(0);
     auto knots = Geom::path_to_knots(path);
+    REQUIRE(knots.size() == 1);
+    REQUIRE(knots.closed);
     auto path_c = Geom::knots_to_path(knots);
     REQUIRE(paths_almost_equal(path, path_c));
 }

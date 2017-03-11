@@ -41,32 +41,32 @@ BezierKnots path_to_knots(Geom::Path const& path) {
         old_tg = controls[2];
         next_point = controls[3];
     }
-    result.knots.emplace_back(next_point, old_tg, Geom::Point());
+    result.knots[0].tg1 = old_tg;
+    result.closed = path.closed();
     return result;
 }
 
 Geom::Path knots_to_path(BezierKnots const& knots) {
-    if (knots.knots.size() < 1) return Geom::Path();
+    if (knots.size() < 1) return Geom::Path();
 
     auto builder = Geom::PathBuilder();
-    Geom::Point first_point;
-    Geom::Point last_point;
+    Geom::Knot first_knot;
     Geom::Point old_tg;
     bool first = true;
     for (auto const& knot : knots.knots) {
         if (first) {
             first = false;
-            first_point = knot.pos;
+            first_knot = knot;
             builder.moveTo(knot.pos);
         } else {
             builder.curveTo(old_tg, knot.tg1, knot.pos);
         }
         old_tg = knot.tg2;
-        last_point = knot.pos;
     }
-//     std::cerr << first_point << " " << last_point << std::endl;
-    if (first_point == last_point)
+    if (knots.closed) {
+        builder.curveTo(old_tg, first_knot.tg1, first_knot.pos);
         builder.closePath();
+    }
     builder.flush();
     return builder.peek().at(0);
 }

@@ -24,21 +24,27 @@
 namespace Geom {
 
 struct Knot {
-    Geom::Point pos;
-    Geom::Point tg1;
-    Geom::Point tg2;
+    Point pos;
+    Point tg1;
+    Point tg2;
     std::string uid;
-    Knot(Geom::Point pos_, Geom::Point tg1_, Geom::Point tg2_, std::string uid_="") :
+    explicit Knot(Point pos_=Point(), Point tg1_=Point(), Point tg2_=Point(), std::string uid_="") :
         pos(pos_), tg1(tg1_), tg2(tg2_), uid(uid_)
     {}
 };
 
-struct BezierKnots {
-    std::vector<Knot> knots;
-    bool closed;
+class BezierKnots {
+public:
     explicit BezierKnots(std::vector<Knot> knots_={}, bool closed_=true) :
         knots(knots_), closed(closed_)
     {}
+public:
+    inline size_t size() const {
+        return knots.size();
+    }
+public:
+    std::vector<Knot> knots;
+    bool closed;
 };
 
 BezierKnots path_to_knots(Geom::Path const& path);
