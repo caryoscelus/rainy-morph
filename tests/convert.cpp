@@ -1,5 +1,5 @@
 /*
- *  knots.h - Geom paths <-> bezier knots conversion
+ *  convert.cpp - test bezier path <-> knot list conversion
  *  Copyright (C) 2017 caryoscelus
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -16,29 +16,17 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __GEOM_HELPERS__KNOTS_H__B3B45F40
-#define __GEOM_HELPERS__KNOTS_H__B3B45F40
+#include <catch.hpp>
 
-#include <2geom/path.h>
+#include <2geom/svg-path-parser.h>
 
-namespace Geom {
+#include <geom_helpers/compare.h>
+#include <geom_helpers/knots.h>
 
-struct Knot {
-    Geom::Point pos;
-    Geom::Point tg1;
-    Geom::Point tg2;
-    std::string uid;
-    Knot(Geom::Point pos_, Geom::Point tg1_, Geom::Point tg2_, std::string uid_="") :
-        pos(pos_), tg1(tg1_), tg2(tg2_), uid(uid_)
-    {}
-};
-
-std::vector<Knot> path_to_knots(Geom::Path const& path);
-Geom::Path knots_to_path(std::vector<Knot> const& knots);
-
-std::vector<Knot> svg_to_knots(char const* str);
-std::string knots_to_svg(std::vector<Knot> const& knots);
-
-} // namespace Geom
-
-#endif
+TEST_CASE("Converting path to knot list", "") {
+    auto svg = "m 27,173 c 187,-91 221,282 0,0 z";
+    auto path = Geom::parse_svg_path(svg).at(0);
+    auto knots = Geom::path_to_knots(path);
+    auto path_c = Geom::knots_to_path(knots);
+    REQUIRE(paths_almost_equal(path, path_c));
+}

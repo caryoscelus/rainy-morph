@@ -19,6 +19,8 @@
 #include <geom_helpers/knots.h>
 
 #include <2geom/path-sink.h>
+#include <2geom/svg-path-parser.h>
+#include <2geom/svg-path-writer.h>
 
 namespace Geom {
 
@@ -67,6 +69,14 @@ Geom::Path knots_to_path(std::vector<Knot> const& knots) {
         builder.closePath();
     builder.flush();
     return builder.peek().at(0);
+}
+
+std::vector<Knot> svg_to_knots(char const* str) {
+    return path_to_knots(Geom::parse_svg_path(str).at(0));
+}
+
+std::string knots_to_svg(std::vector<Knot> const& knots) {
+    return Geom::write_svg_path({knots_to_path(knots)});
 }
 
 } // namespace Geom

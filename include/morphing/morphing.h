@@ -1,5 +1,5 @@
 /*
- *  knots.h - Geom paths <-> bezier knots conversion
+ *  morphing.cpp - path morphing
  *  Copyright (C) 2017 caryoscelus
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -16,29 +16,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __GEOM_HELPERS__KNOTS_H__B3B45F40
-#define __GEOM_HELPERS__KNOTS_H__B3B45F40
+#ifndef __MORPHING__MORPHING_H__1A39CB22
+#define __MORPHING__MORPHING_H__1A39CB22
 
-#include <2geom/path.h>
+#include <geom_helpers/knots.h>
 
-namespace Geom {
+namespace morphing {
 
-struct Knot {
-    Geom::Point pos;
-    Geom::Point tg1;
-    Geom::Point tg2;
-    std::string uid;
-    Knot(Geom::Point pos_, Geom::Point tg1_, Geom::Point tg2_, std::string uid_="") :
-        pos(pos_), tg1(tg1_), tg2(tg2_), uid(uid_)
-    {}
-};
+Geom::Knot knot_average(Geom::Knot const& a, Geom::Knot const& b, double amount);
+std::vector<Geom::Knot> simple_average(std::vector<Geom::Knot> const& a, std::vector<Geom::Knot> const& b, double amount);
 
-std::vector<Knot> path_to_knots(Geom::Path const& path);
-Geom::Path knots_to_path(std::vector<Knot> const& knots);
-
-std::vector<Knot> svg_to_knots(char const* str);
-std::string knots_to_svg(std::vector<Knot> const& knots);
-
-} // namespace Geom
+} // namespace morphing
 
 #endif
