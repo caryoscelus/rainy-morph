@@ -24,8 +24,8 @@
 
 namespace Geom {
 
-std::vector<Knot> path_to_knots(Geom::Path const& path) {
-    std::vector<Knot> result;
+BezierKnots path_to_knots(Geom::Path const& path) {
+    BezierKnots result;
     Geom::Point old_tg;
     Geom::Point next_point;
     for (auto const& segment : path) {
@@ -37,23 +37,23 @@ std::vector<Knot> path_to_knots(Geom::Path const& path) {
         }
         auto const& bezier = *maybe_bezier;
         auto controls = bezier.controlPoints();
-        result.emplace_back(controls[0], old_tg, controls[1]);
+        result.knots.emplace_back(controls[0], old_tg, controls[1]);
         old_tg = controls[2];
         next_point = controls[3];
     }
-    result.emplace_back(next_point, old_tg, Geom::Point());
+    result.knots.emplace_back(next_point, old_tg, Geom::Point());
     return result;
 }
 
-Geom::Path knots_to_path(std::vector<Knot> const& knots) {
-    if (knots.size() < 2) return Geom::Path();
+Geom::Path knots_to_path(BezierKnots const& knots) {
+    if (knots.knots.size() < 1) return Geom::Path();
 
     auto builder = Geom::PathBuilder();
     Geom::Point first_point;
     Geom::Point last_point;
     Geom::Point old_tg;
     bool first = true;
-    for (auto const& knot : knots) {
+    for (auto const& knot : knots.knots) {
         if (first) {
             first = false;
             first_point = knot.pos;
@@ -71,11 +71,11 @@ Geom::Path knots_to_path(std::vector<Knot> const& knots) {
     return builder.peek().at(0);
 }
 
-std::vector<Knot> svg_to_knots(char const* str) {
+BezierKnots svg_to_knots(char const* str) {
     return path_to_knots(Geom::parse_svg_path(str).at(0));
 }
 
-std::string knots_to_svg(std::vector<Knot> const& knots) {
+std::string knots_to_svg(BezierKnots const& knots) {
     return Geom::write_svg_path({knots_to_path(knots)});
 }
 

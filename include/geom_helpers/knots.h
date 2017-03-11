@@ -33,11 +33,19 @@ struct Knot {
     {}
 };
 
-std::vector<Knot> path_to_knots(Geom::Path const& path);
-Geom::Path knots_to_path(std::vector<Knot> const& knots);
+struct BezierKnots {
+    std::vector<Knot> knots;
+    bool closed;
+    explicit BezierKnots(std::vector<Knot> knots_={}, bool closed_=true) :
+        knots(knots_), closed(closed_)
+    {}
+};
 
-std::vector<Knot> svg_to_knots(char const* str);
-std::string knots_to_svg(std::vector<Knot> const& knots);
+BezierKnots path_to_knots(Geom::Path const& path);
+Geom::Path knots_to_path(BezierKnots const& knots);
+
+BezierKnots svg_to_knots(char const* str);
+std::string knots_to_svg(BezierKnots const& knots);
 
 } // namespace Geom
 

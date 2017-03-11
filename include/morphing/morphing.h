@@ -24,7 +24,7 @@
 namespace morphing {
 
 Geom::Knot knot_average(Geom::Knot const& a, Geom::Knot const& b, double amount);
-std::vector<Geom::Knot> simple_average(std::vector<Geom::Knot> const& a, std::vector<Geom::Knot> const& b, double amount);
+Geom::BezierKnots simple_average(Geom::BezierKnots const& a, Geom::BezierKnots const& b, double amount);
 
 } // namespace morphing
 

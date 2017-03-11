@@ -22,6 +22,7 @@
 namespace morphing {
 
 using Geom::Knot;
+using Geom::BezierKnots;
 
 Knot knot_average(Knot const& a, Knot const& b, double amount) {
     auto a_amount = 1.0-amount;
@@ -30,12 +31,14 @@ Knot knot_average(Knot const& a, Knot const& b, double amount) {
                 a.tg2*a_amount + b.tg2*amount);
 }
 
-std::vector<Knot> simple_average(std::vector<Knot> const& a, std::vector<Knot> const& b, double amount) {
-    if (a.size() != b.size())
-        throw "a and have different length";
-    std::vector<Knot> result;
-    for (int i = 0; i < a.size(); ++i) {
-        result.push_back(knot_average(a[i], b[i], amount));
+BezierKnots simple_average(BezierKnots const& a, BezierKnots const& b, double amount) {
+    if (a.closed != b.closed)
+        throw "a nd b have different closedness";
+    if (a.knots.size() != b.knots.size())
+        throw "a and b have different length";
+    BezierKnots result;
+    for (int i = 0; i < a.knots.size(); ++i) {
+        result.knots.push_back(knot_average(a.knots[i], b.knots[i], amount));
     }
     return result;
 }
