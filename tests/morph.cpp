@@ -69,4 +69,13 @@ TEST_CASE("Prepare average", "") {
         path_from.knots[0].uid = path_to.knots[0].uid = "main";
         test_average(path_from, path_to);
     }
+    SECTION("Two keys") {
+        auto src_from = "m 100,100 c 60,-10 60,-20 40,-40 c -20,-10 -40,0 -60,10 c -10,10 -10,20 20,30 z";
+        auto src_to = "m 100,100 c 20,0 30,-10 30,-30 c 0,-20 -10,-30 -30,-30 c -20,0 -30,10 -30,30 c 0,20 10,30 30,30 z";
+        auto path_from = svg_to_knots(src_from);
+        auto path_to = svg_to_knots(src_to);
+        path_from.knots[0].uid = path_to.knots[0].uid = "main";
+        path_from.knots[1].uid = path_to.knots[2].uid = "other";
+        test_average(path_from, path_to);
+    }
 }

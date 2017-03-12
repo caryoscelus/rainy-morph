@@ -125,6 +125,7 @@ void prepare_average(BezierKnots const& a, BezierKnots const& b, BezierKnots& ta
     auto key_a = std::begin(keys_a);
     auto key_b = std::begin(keys_b);
     for (; key_a != std::end(keys_a); ++key_a, ++key_b) {
+        std::cerr << key_a->first << ", " << prev_a << std::endl;
         std::vector<size_t> indexes_a = get_indexes(prev_a, key_a->second, a.size());
         std::vector<size_t> indexes_b = get_indexes(prev_b, key_b->second, b.size());
         auto a_size = indexes_a.size();
@@ -142,6 +143,8 @@ void prepare_average(BezierKnots const& a, BezierKnots const& b, BezierKnots& ta
             calculate_split(div_a, indexes_a, lcm/a_size);
             calculate_split(div_b, indexes_b, lcm/b_size);
         }
+        prev_a = key_a->second;
+        prev_b = key_b->second;
     }
     // apply split
     auto path_a = Geom::knots_to_path(a);
