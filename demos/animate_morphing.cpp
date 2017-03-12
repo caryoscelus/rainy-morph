@@ -41,10 +41,15 @@ void parse_keys(std::string const& keys, Geom::BezierKnots& path) {
     auto regex = std::regex("[^,]*");
     std::smatch match;
     std::regex_search(keys, match, regex);
+    auto keys_begin = std::sregex_iterator(
+        std::begin(keys),
+        std::end(keys),
+        regex
+    );
     unsigned index = 0;
-    for (auto const& key : match) {
-        std::cerr << key << std::endl;
-        path.knots[index].uid = key;
+    for (auto key = keys_begin; key != std::sregex_iterator(); ++key) {
+        std::cerr << key->str() << std::endl;
+        path.knots[index].uid = key->str();
         ++index;
     }
 }
@@ -80,7 +85,7 @@ void animate(std::string const& fname, unsigned frames) {
     for (unsigned frame = 0; frame <= frames; ++frame) {
         auto tween = morphing::simple_average(path_from, path_to, 1.0*frame/frames);
         auto output = std::regex_replace(input, regex, "\""+knots_to_svg(tween)+"\"");
-        std::ofstream out("{}.{}.svg"_format(fname, frame));
+        std::ofstream out("{}.{:0>3}.svg"_format(fname, frame));
         out << output;
         out.close();
     }
