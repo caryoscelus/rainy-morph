@@ -62,10 +62,14 @@ void parse_average(std::string const& svg_from,  std::string const& svg_to,
 void animate(std::string const& fname, unsigned frames) {
     using namespace Geom;
     auto input = slurp(fname);
-    std::string base_regex = R"(\{\{(.*)\}\}@\[([a-zA-Z,]*)\])";
+    std::string base_regex = R"(\{\{([^]*)\}\}@\[([a-zA-Z,]*)\])";
     auto regex = std::regex("\""+base_regex+R"([\n\s]*)"+base_regex+"\"");
     std::smatch match;
     std::regex_search(input, match, regex);
+    if (match.empty()) {
+        std::cerr << "Failed to detect path to morph" << std::endl;
+        return;
+    }
     auto svg_from = match[1];
     auto key_from = match[2];
     auto svg_to = match[3];
