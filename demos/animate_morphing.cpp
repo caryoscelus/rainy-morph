@@ -38,7 +38,7 @@ std::string slurp(std::string const& fname) {
 }
 
 void parse_keys(std::string const& keys, Geom::BezierKnots& path) {
-    auto regex = std::regex("[^,]*");
+    auto regex = std::regex("([^,]*)[,$]");
     std::smatch match;
     std::regex_search(keys, match, regex);
     auto keys_begin = std::sregex_iterator(
@@ -46,10 +46,12 @@ void parse_keys(std::string const& keys, Geom::BezierKnots& path) {
         std::end(keys),
         regex
     );
+    auto keys_end = std::sregex_iterator();
+    std::cerr << "Keys: " << std::distance(keys_begin, keys_end) << std::endl;
     unsigned index = 0;
-    for (auto key = keys_begin; key != std::sregex_iterator(); ++key) {
-        std::cerr << key->str() << std::endl;
-        path.knots[index].uid = key->str();
+    for (auto key = keys_begin; key != keys_end; ++key) {
+        std::cerr << (*key)[1] << std::endl;
+        path.knots[index].uid = (*key)[1];
         ++index;
     }
 }
@@ -67,7 +69,7 @@ void parse_average(std::string const& svg_from,  std::string const& svg_to,
 void animate(std::string const& fname, unsigned frames) {
     using namespace Geom;
     auto input = slurp(fname);
-    std::string base_regex = R"(\{\{([^]*)\}\}@\[([a-zA-Z,]*)\])";
+    std::string base_regex = R"(\{\{([^]*)\}\}@\[([a-zA-Z_,]*)\])";
     auto regex = std::regex("\""+base_regex+R"([\n\s]*)"+base_regex+"\"");
     std::smatch match;
     std::regex_search(input, match, regex);
