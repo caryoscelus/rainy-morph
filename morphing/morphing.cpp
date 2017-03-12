@@ -22,6 +22,7 @@
 #include <geom_helpers/split.h>
 
 #include <set>
+#include <experimental/numeric>
 
 namespace morphing {
 
@@ -132,13 +133,14 @@ void prepare_average(BezierKnots const& a, BezierKnots const& b, BezierKnots& ta
             // 1 : 1 - trivial case - do nothing
         } else if (a_size % b_size == 0) {
             // k : 1 - only split b
-            std::cerr << "la-la-la" << std::endl;
             calculate_split(div_b, indexes_b, a_size/b_size);
         } else if (b_size % a_size == 0) {
             // 1 : k - only split a
             calculate_split(div_a, indexes_a, b_size/a_size);
         } else {
-            // ???
+            auto lcm = std::experimental::lcm(a_size, b_size);
+            calculate_split(div_a, indexes_a, lcm/a_size);
+            calculate_split(div_b, indexes_b, lcm/b_size);
         }
     }
     // apply split
