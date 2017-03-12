@@ -153,7 +153,7 @@ void prepare_average(BezierKnots const& a, BezierKnots const& b, BezierKnots& ta
         target_a = a;
     }
     if (div_b.size() > 0) {
-        target_b = Geom::path_to_knots(Geom::split_and_merge_path(path_b, div_b));;
+        target_b = Geom::path_to_knots(Geom::split_and_merge_path(path_b, div_b));
         target_b.closed = b.closed;
     } else {
         target_b = b;
