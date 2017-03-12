@@ -26,6 +26,7 @@ namespace morphing {
 Geom::Knot knot_average(Geom::Knot const& a, Geom::Knot const& b, double amount);
 Geom::BezierKnots simple_average(Geom::BezierKnots const& a, Geom::BezierKnots const& b, double amount);
 void prepare_average(Geom::BezierKnots const& a, Geom::BezierKnots const& b, Geom::BezierKnots& target_a, Geom::BezierKnots& target_b);
+Geom::BezierKnots average(Geom::BezierKnots const& from, Geom::BezierKnots const& to, double amount);
 
 } // namespace morphing
 

@@ -160,4 +160,10 @@ void prepare_average(BezierKnots const& a, BezierKnots const& b, BezierKnots& ta
     }
 }
 
+BezierKnots average(BezierKnots const& from, BezierKnots const& to, double amount) {
+    BezierKnots from_f, to_f;
+    prepare_average(from, to, from_f, to_f);
+    return simple_average(from_f, to_f, amount);
+}
+
 } // namespace morphing
