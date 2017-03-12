@@ -39,3 +39,19 @@ TEST_CASE("Simple morphing with equal amount of knots", "") {
         "M 100 100 C 120 100 130 90 130 70 S 120 40 100 40 S 70 50 70 70 S 80 100 100 100 z"
     );
 }
+
+TEST_CASE("Prepare average", "") {
+    SECTION("Simple") {
+        auto src_from = "m 100,100 c 60,-40 -40,-20 0,0 z";
+        auto src_to = "m 100,100 c 20,0 30,-10 30,-30 c 0,-20 -10,-30 -30,-30 c -20,0 -30,10 -30,30 c 0,20 10,30 30,30 z";
+        auto path_from = Geom::svg_to_knots(src_from);
+        auto path_to = Geom::svg_to_knots(src_to);
+        path_from.knots[0].uid = path_to.knots[0].uid = "main";
+        Geom::BezierKnots path_from_fixed;
+        Geom::BezierKnots path_to_fixed;
+        morphing::prepare_average(path_from, path_to, path_from_fixed, path_to_fixed);
+        REQUIRE(path_from_fixed.size() == path_to_fixed.size());
+        REQUIRE(path_from_fixed.closed == path_to_fixed.closed);
+        std::cerr << Geom::knots_to_svg(morphing::simple_average(path_from_fixed, path_to_fixed, 0.5)) << std::endl;
+    }
+}

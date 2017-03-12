@@ -24,11 +24,12 @@
 namespace Geom {
 
 struct Knot {
+    using Id = std::string;
     Point pos;
     Point tg1;
     Point tg2;
-    std::string uid;
-    explicit Knot(Point pos_=Point(), Point tg1_=Point(), Point tg2_=Point(), std::string uid_="") :
+    Id uid;
+    explicit Knot(Point pos_=Point(), Point tg1_=Point(), Point tg2_=Point(), Id uid_="") :
         pos(pos_), tg1(tg1_), tg2(tg2_), uid(uid_)
     {}
 };

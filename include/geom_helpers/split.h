@@ -23,7 +23,7 @@
 
 namespace Geom {
 
-Geom::Path split_and_merge_path(Geom::Path const& path, std::vector<Geom::PathTime> div);
+Geom::Path split_and_merge_path(Geom::Path const& path, std::vector<Geom::PathTime> const& div);
 
 } // namespace Geom
 

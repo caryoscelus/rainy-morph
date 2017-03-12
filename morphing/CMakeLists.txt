@@ -7,3 +7,5 @@ target_include_directories(morphing
         ${LIB2GEOM_INCLUDE_DIRS}
 )
 target_link_libraries(morphing ${LIB2GEOM_LIBRARIES})
+
+target_link_libraries(morphing geom_helpers)
