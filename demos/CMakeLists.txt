@@ -1,2 +1,5 @@
 add_executable(animate_morphing animate_morphing.cpp)
 target_link_libraries(animate_morphing geom_helpers morphing fmt)
+
+add_executable(enumerate_knots enumerate_knots.cpp)
+target_link_libraries(enumerate_knots geom_helpers morphing fmt)
