@@ -51,6 +51,7 @@ public:
 BezierKnots path_to_knots(Geom::Path const& path);
 Geom::Path knots_to_path(BezierKnots const& knots);
 
+BezierKnots svg_to_knots(std::string const& str);
 BezierKnots svg_to_knots(char const* str);
 std::string knots_to_svg(BezierKnots const& knots);
 

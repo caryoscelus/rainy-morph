@@ -71,6 +71,10 @@ Geom::Path knots_to_path(BezierKnots const& knots) {
     return builder.peek().at(0);
 }
 
+BezierKnots svg_to_knots(std::string const& str) {
+    return svg_to_knots(str.c_str());
+}
+
 BezierKnots svg_to_knots(char const* str) {
     return path_to_knots(Geom::parse_svg_path(str).at(0));
 }
