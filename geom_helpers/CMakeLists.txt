@@ -1,4 +1,4 @@
-add_library(geom_helpers
+add_library(geom_helpers SHARED
     compare.cpp
     knots.cpp
     split.cpp

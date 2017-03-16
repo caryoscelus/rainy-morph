@@ -1,4 +1,4 @@
-add_library(morphing
+add_library(morphing SHARED
     morphing.cpp
 )
 
