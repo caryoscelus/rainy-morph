@@ -20,3 +20,8 @@ add_subdirectory(geom_helpers)
 add_subdirectory(morphing)
 add_subdirectory(tests)
 add_subdirectory(demos)
+
+install(
+    DIRECTORY include/
+    DESTINATION include
+)
