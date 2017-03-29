@@ -32,6 +32,15 @@ struct Knot {
     explicit Knot(Point pos_=Point(), Point tg1_=Point(), Point tg2_=Point(), Id uid_="") :
         pos(pos_), tg1(tg1_), tg2(tg2_), uid(uid_)
     {}
+    inline bool operator==(Knot const& other) const {
+        return pos == other.pos
+            && tg1 == other.tg1
+            && tg2 == other.tg2
+            && uid == other.uid;
+    }
+    inline bool operator!=(Knot const& other) const {
+        return !(*this == other);
+    }
 };
 
 class BezierKnots {
@@ -39,6 +48,14 @@ public:
     explicit BezierKnots(std::vector<Knot> knots_={}, bool closed_=true) :
         knots(knots_), closed(closed_)
     {}
+public:
+    inline bool operator==(BezierKnots const& other) const {
+        return closed == other.closed
+            && knots == other.knots;
+    }
+    inline bool operator!=(BezierKnots const& other) const {
+        return !(*this == other);
+    }
 public:
     inline size_t size() const {
         return knots.size();
