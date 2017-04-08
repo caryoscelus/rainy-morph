@@ -42,7 +42,7 @@ BezierKnots simple_average(BezierKnots const& a, BezierKnots const& b, double am
     if (a.knots.size() != b.knots.size())
         throw "a and b have different length";
     BezierKnots result;
-    for (int i = 0; i < a.knots.size(); ++i) {
+    for (size_t i = 0; i < a.knots.size(); ++i) {
         result.knots.push_back(knot_average(a.knots[i], b.knots[i], amount));
     }
     return result;
