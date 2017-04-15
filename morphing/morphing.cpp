@@ -38,9 +38,9 @@ Knot knot_average(Knot const& a, Knot const& b, double amount) {
 
 BezierKnots simple_average(BezierKnots const& a, BezierKnots const& b, double amount) {
     if (a.closed != b.closed)
-        throw "a nd b have different closedness";
+        throw MorphingError("a nd b have different closedness");
     if (a.knots.size() != b.knots.size())
-        throw "a and b have different length";
+        throw MorphingError("a and b have different length");
     BezierKnots result;
     for (size_t i = 0; i < a.knots.size(); ++i) {
         result.knots.push_back(knot_average(a.knots[i], b.knots[i], amount));
@@ -114,9 +114,9 @@ void prepare_average(BezierKnots const& a, BezierKnots const& b, BezierKnots& ta
     MorphingKeys keys_b;
     intersect_keys(a, b, keys_a, keys_b);
     if (keys_a.size() != keys_b.size())
-        throw "Different size";
+        throw MorphingError("Different size");
     if (keys_a.empty())
-        throw "No common keys";
+        throw MorphingError("No common keys");
     // for each interval: calculate split
     std::vector<Geom::PathTime> div_a;
     std::vector<Geom::PathTime> div_b;

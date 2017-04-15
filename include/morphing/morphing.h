@@ -19,9 +19,18 @@
 #ifndef __MORPHING__MORPHING_H__1A39CB22
 #define __MORPHING__MORPHING_H__1A39CB22
 
+#include <stdexcept>
+
 #include <geom_helpers/knots.h>
 
 namespace morphing {
+
+class MorphingError : public std::runtime_error {
+public:
+    MorphingError(std::string const& msg) :
+        std::runtime_error(msg)
+    {}
+};
 
 Geom::Knot knot_average(Geom::Knot const& a, Geom::Knot const& b, double amount);
 Geom::BezierKnots simple_average(Geom::BezierKnots const& a, Geom::BezierKnots const& b, double amount);
