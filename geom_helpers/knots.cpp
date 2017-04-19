@@ -26,6 +26,11 @@ namespace Geom {
 
 BezierKnots path_to_knots(Geom::Path const& path) {
     BezierKnots result;
+    result.closed = path.closed();
+
+    if (path.size_open() == 0)
+        return result;
+
     Geom::Point old_tg;
     Geom::Point next_point;
     for (auto const& segment : path) {
@@ -42,7 +47,6 @@ BezierKnots path_to_knots(Geom::Path const& path) {
         next_point = controls[3];
     }
     result.knots[0].tg1 = old_tg;
-    result.closed = path.closed();
     return result;
 }
 
