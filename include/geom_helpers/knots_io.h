@@ -25,8 +25,11 @@
 
 namespace Geom {
 
+Geom::BezierKnots parse_named_knots(std::string const& string);
+std::string named_knots_to_str(Geom::BezierKnots const& knots);
+
 std::ostream& operator<<(std::ostream& stream, BezierKnots const& knots) {
-    stream << knots_to_svg(knots);
+    stream << named_knots_to_str(knots);
 }
 
 } // namespace Geom

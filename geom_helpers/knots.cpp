@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <geom_helpers/knots.h>
+#include <geom_helpers/knots_io.h>
 
 #include <2geom/path-sink.h>
 #include <2geom/svg-path-parser.h>
@@ -85,6 +85,35 @@ BezierKnots svg_to_knots(char const* str) {
 
 std::string knots_to_svg(BezierKnots const& knots) {
     return Geom::write_svg_path({knots_to_path(knots)});
+}
+
+Geom::BezierKnots parse_named_knots(std::string const& str) {
+    std::istringstream stream(str);
+    std::string svg_path, keys;
+    std::getline(stream, svg_path, '@');
+    std::getline(stream, keys, '@');
+    auto path = Geom::svg_to_knots(svg_path);
+    unsigned index = 0;
+    std::istringstream keystream(keys);
+    while (keystream.good() && index < path.size()) {
+        std::string key;
+        std::getline(keystream, key, ',');
+        path.knots[index].uid = key;
+        ++index;
+    }
+    return path;
+}
+
+std::string knot_names_to_str(Geom::BezierKnots const& knots) {
+    std::ostringstream stream;
+    for (auto const& knot : knots.knots) {
+        stream << knot.uid << ",";
+    }
+    return stream.str();
+}
+
+std::string named_knots_to_str(Geom::BezierKnots const& knots) {
+    return knots_to_svg(knots)+" @"+knot_names_to_str(knots)+";";
 }
 
 } // namespace Geom
