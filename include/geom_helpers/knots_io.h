@@ -1,5 +1,5 @@
 /*
- *  knots_io.h - BezierKnots output operator
+ *  knots_io.h - BezierKnots parse&format
  *  Copyright (C) 2017 caryoscelus
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -28,8 +28,8 @@ namespace Geom {
 Geom::BezierKnots parse_named_knots(std::string const& string);
 std::string named_knots_to_str(Geom::BezierKnots const& knots);
 
-std::ostream& operator<<(std::ostream& stream, BezierKnots const& knots) {
-    stream << named_knots_to_str(knots);
+inline std::ostream& operator<<(std::ostream& stream, Geom::BezierKnots const& knots) {
+    return stream << named_knots_to_str(knots);
 }
 
 } // namespace Geom
