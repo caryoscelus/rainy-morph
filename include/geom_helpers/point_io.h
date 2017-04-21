@@ -26,11 +26,6 @@
 namespace Geom {
 
 Point parse_point(std::string const& string);
-std::string format_point(Point const& point);
-
-inline std::ostream& operator<<(std::ostream& stream, Point const& point) {
-    stream << format_point(point);
-}
 
 } // namespace Geom
 

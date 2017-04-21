@@ -31,7 +31,7 @@ Point parse_point(std::string const& string) {
     if (stream.get() == '(') {
         double x;
         stream >> x;
-        if (stream.get() == ';') {
+        if (stream.get() == ',') {
             double y;
             stream >> y;
             if (stream.get() == ')')
@@ -39,10 +39,6 @@ Point parse_point(std::string const& string) {
         }
     }
     throw std::runtime_error("Error while parsing Point '{}'"_format(string));
-}
-
-std::string format_point(Point const& point) {
-    return "({}; {})"_format(point.x(), point.y());
 }
 
 } // namespace Geom
