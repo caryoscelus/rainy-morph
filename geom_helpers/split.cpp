@@ -26,6 +26,7 @@ Geom::Path split_and_merge_path(Geom::Path const& path, std::vector<Geom::PathTi
     for (auto const& partial : partials) {
         result.append(partial);
     }
+    result.close(path.closed());
     return result;
 }
 

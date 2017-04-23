@@ -26,10 +26,11 @@
 void test_convert(std::string const& svg) {
     auto path = Geom::parse_svg_path(svg.c_str()).at(0);
     auto knots = Geom::path_to_knots(path);
-    REQUIRE(knots.size() == path.size_open());
-    REQUIRE(knots.closed == path.closed());
+    if (knots.closed)
+        CHECK(knots.size() == path.size_default());
+    CHECK(knots.closed == path.closed());
     auto path_c = Geom::knots_to_path(knots);
-    REQUIRE(Geom::paths_almost_equal(path, path_c));
+    CHECK(Geom::paths_almost_equal(path, path_c));
 }
 
 TEST_CASE("Converting closed path to knot list", "[convert]") {
@@ -38,4 +39,8 @@ TEST_CASE("Converting closed path to knot list", "[convert]") {
 
 TEST_CASE("Converting open path to knot list", "[convert]") {
     test_convert("m 27,173 c 187,-91 221,282 0,0");
+}
+
+TEST_CASE("Converting another open path to knot list", "[convert]") {
+    test_convert("m 27,173 c 187,-91 221,282 20,40");
 }

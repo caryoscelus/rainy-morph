@@ -28,7 +28,7 @@ BezierKnots path_to_knots(Geom::Path const& path) {
     BezierKnots result;
     result.closed = path.closed();
 
-    if (path.size_open() == 0)
+    if (path.size_default() < 1)
         return result;
 
     Geom::Point old_tg;
@@ -46,7 +46,11 @@ BezierKnots path_to_knots(Geom::Path const& path) {
         old_tg = controls[2];
         next_point = controls[3];
     }
-    result.knots[0].tg1 = old_tg;
+    if (!path.closed()) {
+        result.knots.emplace_back(next_point, old_tg, Geom::Point());
+    } else {
+        result.knots[0].tg1 = old_tg;
+    }
     return result;
 }
 
@@ -67,8 +71,8 @@ Geom::Path knots_to_path(BezierKnots const& knots) {
         }
         old_tg = knot.tg2;
     }
-    builder.curveTo(old_tg, first_knot.tg1, first_knot.pos);
     if (knots.closed) {
+        builder.curveTo(old_tg, first_knot.tg1, first_knot.pos);
         builder.closePath();
     }
     builder.flush();
