@@ -45,7 +45,10 @@ struct Knot {
 
 class BezierKnots {
 public:
-    explicit BezierKnots(std::vector<Knot> knots_={}, bool closed_=true) :
+    BezierKnots() :
+        BezierKnots{{}}
+    {}
+    explicit BezierKnots(std::vector<Knot> knots_, bool closed_=true) :
         knots(knots_), closed(closed_)
     {}
 public:
