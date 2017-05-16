@@ -19,8 +19,10 @@
 #include <sstream>
 
 #include <fmt/format.h>
+#include <fmt/ostream.h>
 
 #include <geom_helpers/point_io.h>
+#include <geom_helpers/rectangle.h>
 
 using namespace fmt::literals;
 
@@ -39,6 +41,10 @@ Point parse_point(std::string const& string) {
         }
     }
     throw std::runtime_error("Error while parsing Point '{}'"_format(string));
+}
+
+std::ostream& operator<<(std::ostream& stream, Rectangle const& rect) {
+    return stream << "Rectangle(pos={}, size={})"_format(rect.pos, rect.size);
 }
 
 } // namespace Geom
