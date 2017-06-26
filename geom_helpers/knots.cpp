@@ -47,7 +47,7 @@ BezierKnots path_to_knots(Geom::Path const& path) {
         next_point = controls[3];
     }
     if (!path.closed()) {
-        result.knots.push_back(Knot::from_absolute(next_point, old_tg, Geom::Point()));
+        result.knots.push_back(Knot::from_absolute(next_point, old_tg, next_point));
     } else {
         result.knots[0].tg1 = old_tg-result.knots[0].pos;
     }
