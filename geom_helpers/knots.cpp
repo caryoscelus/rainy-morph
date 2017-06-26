@@ -42,14 +42,14 @@ BezierKnots path_to_knots(Geom::Path const& path) {
         }
         auto const& bezier = *maybe_bezier;
         auto controls = bezier.controlPoints();
-        result.knots.emplace_back(controls[0], old_tg, controls[1]);
+        result.knots.push_back(Knot::from_absolute(controls[0], old_tg, controls[1]));
         old_tg = controls[2];
         next_point = controls[3];
     }
     if (!path.closed()) {
-        result.knots.emplace_back(next_point, old_tg, Geom::Point());
+        result.knots.push_back(Knot::from_absolute(next_point, old_tg, Geom::Point()));
     } else {
-        result.knots[0].tg1 = old_tg;
+        result.knots[0].tg1 = old_tg-result.knots[0].pos;
     }
     return result;
 }
@@ -60,6 +60,7 @@ Geom::Path knots_to_path(BezierKnots const& knots) {
     auto builder = Geom::PathBuilder();
     Geom::Knot first_knot;
     Geom::Point old_tg;
+    Geom::Point old_pos;
     bool first = true;
     for (auto const& knot : knots.knots) {
         if (first) {
@@ -67,12 +68,13 @@ Geom::Path knots_to_path(BezierKnots const& knots) {
             first_knot = knot;
             builder.moveTo(knot.pos);
         } else {
-            builder.curveTo(old_tg, knot.tg1, knot.pos);
+            builder.curveTo(old_pos+old_tg, knot.pos+knot.tg1, knot.pos);
         }
+        old_pos = knot.pos;
         old_tg = knot.tg2;
     }
     if (knots.closed) {
-        builder.curveTo(old_tg, first_knot.tg1, first_knot.pos);
+        builder.curveTo(old_pos+old_tg, first_knot.pos+first_knot.tg1, first_knot.pos);
         builder.closePath();
     }
     builder.flush();

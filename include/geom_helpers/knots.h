@@ -32,6 +32,9 @@ struct Knot {
     explicit Knot(Point pos_=Point(), Point tg1_=Point(), Point tg2_=Point(), Id uid_="") :
         pos(pos_), tg1(tg1_), tg2(tg2_), uid(uid_)
     {}
+    static Knot from_absolute(Point pos, Point atg1, Point atg2, Id uid="") {
+        return Knot(pos, atg1-pos, atg2-pos, uid);
+    }
     inline bool operator==(Knot const& other) const {
         return pos == other.pos
             && tg1 == other.tg1
