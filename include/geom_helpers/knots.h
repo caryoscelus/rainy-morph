@@ -29,7 +29,9 @@ struct Knot {
     Point tg1;
     Point tg2;
     Id uid;
-    explicit Knot(Point pos_=Point(), Point tg1_=Point(), Point tg2_=Point(), Id uid_="") :
+    Knot()
+    {}
+    explicit Knot(Point pos_, Point tg1_=Point(), Point tg2_=Point(), Id uid_="") :
         pos(pos_), tg1(tg1_), tg2(tg2_), uid(uid_)
     {}
     static Knot from_absolute(Point pos, Point atg1, Point atg2, Id uid="") {
