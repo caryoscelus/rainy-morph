@@ -16,11 +16,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <fmt/format.h>
+#include <fmt/ostream.h>
+
 #include <geom_helpers/knots_io.h>
 
 #include <2geom/path-sink.h>
 #include <2geom/svg-path-parser.h>
 #include <2geom/svg-path-writer.h>
+
+using namespace fmt::literals;
 
 namespace Geom {
 
@@ -120,6 +125,14 @@ std::string knot_names_to_str(Geom::BezierKnots const& knots) {
 
 std::string named_knots_to_str(Geom::BezierKnots const& knots) {
     return knots_to_svg(knots)+" @"+knot_names_to_str(knots)+";";
+}
+
+Knot parse_knot(std::string const& /*string*/) {
+    throw std::runtime_error("Knot parsing not implemented");
+}
+
+std::ostream& operator<<(std::ostream& stream, Knot const& knot) {
+    return stream << "BezierKnot({}, {}, {})"_format(knot.pos, knot.tg1, knot.tg2);
 }
 
 } // namespace Geom
