@@ -40,11 +40,8 @@ BezierKnots path_to_knots(Geom::Path const& path) {
     Geom::Point next_point;
     for (auto const& segment : path) {
         auto maybe_bezier = dynamic_cast<Geom::CubicBezier const*>(&segment);
-        if (maybe_bezier == nullptr) {
-            std::cerr << "not curve" << std::endl;
-            // throw
-            continue;
-        }
+        if (maybe_bezier == nullptr)
+            throw std::runtime_error("path_to_knots failure: only cubic bezier segments are currently supported");
         auto const& bezier = *maybe_bezier;
         auto controls = bezier.controlPoints();
         result.knots.push_back(Knot::from_absolute(controls[0], old_tg, controls[1]));
