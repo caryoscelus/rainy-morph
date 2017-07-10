@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1)
 
-project(path-morphing)
+project(rainy-morph)
 
 set(CMAKE_CXX_STANDARD 14) # 17 is not supported by cmake 3.7
 # set(CMAKE_CXX_STANDARD_REQUIRED ON)
