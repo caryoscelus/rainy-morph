@@ -68,6 +68,9 @@ public:
     inline size_t size() const {
         return knots.size();
     }
+    inline bool empty() const {
+        return size() == 0;
+    }
 public:
     std::vector<Knot> knots;
     bool closed;
