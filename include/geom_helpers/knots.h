@@ -71,6 +71,13 @@ public:
     inline bool empty() const {
         return size() == 0;
     }
+    inline Knot const& first() const {
+        // TODO: throw?
+        return knots[0];
+    }
+    inline Knot const& last() const {
+        return knots[size()-1];
+    }
 public:
     std::vector<Knot> knots;
     bool closed;
