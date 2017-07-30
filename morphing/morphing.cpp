@@ -109,8 +109,18 @@ void calculate_split(std::vector<Geom::PathTime>& result, std::vector<size_t> in
 }
 
 void prepare_average(BezierKnots const& a, BezierKnots const& b, BezierKnots& target_a, BezierKnots& target_b) {
-    // collect keys
-    // intersect keys
+    if (a.empty() != b.empty())
+        throw MorphingError("Different emptiness");
+    if (a.closed != b.closed)
+        throw MorphingError("Different closedness");
+
+    if (!a.closed) {
+        if (a.first().uid == "" || a.first().uid != b.first().uid)
+            throw MorphingError("Start key not matching");
+        if (a.last().uid == "" || a.last().uid != b.last().uid)
+            throw MorphingError("End key not matching");
+    }
+
     MorphingKeys keys_a;
     MorphingKeys keys_b;
     intersect_keys(a, b, keys_a, keys_b);
