@@ -38,10 +38,11 @@ Knot knot_average(Knot const& a, Knot const& b, double amount) {
 
 BezierKnots simple_average(BezierKnots const& a, BezierKnots const& b, double amount) {
     if (a.closed != b.closed)
-        throw MorphingError("a nd b have different closedness");
+        throw MorphingError("a and b have different closedness");
     if (a.knots.size() != b.knots.size())
         throw MorphingError("a and b have different length");
     BezierKnots result;
+    result.closed = a.closed;
     for (size_t i = 0; i < a.knots.size(); ++i) {
         result.knots.push_back(knot_average(a.knots[i], b.knots[i], amount));
     }

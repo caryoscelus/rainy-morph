@@ -49,9 +49,13 @@ void test_average(BezierKnots const& path_from, BezierKnots const& path_to) {
     prepare_average(path_from, path_to, path_from_fixed, path_to_fixed);
     CHECK(path_from_fixed.size() == path_to_fixed.size());
     CHECK(path_from_fixed.closed == path_to_fixed.closed);
+    auto path_avg = simple_average(path_from_fixed, path_to_fixed, 0.5);
+    CHECK(path_from_fixed.size() == path_avg.size());
+    CHECK(path_from_fixed.closed == path_avg.closed);
+    // TODO: actual tests?
     std::cerr << path_from_fixed << std::endl;
     std::cerr << path_to_fixed << std::endl;
-    std::cerr << knots_to_svg(simple_average(path_from_fixed, path_to_fixed, 0.5)) << std::endl;
+    std::cerr << knots_to_svg(path_avg) << std::endl;
 }
 
 TEST_CASE("Prepare average", "") {
@@ -78,6 +82,15 @@ TEST_CASE("Prepare average", "") {
         auto path_to = svg_to_knots(src_to);
         path_from.knots[0].uid = path_to.knots[0].uid = "main";
         path_from.knots[1].uid = path_to.knots[2].uid = "other";
+        test_average(path_from, path_to);
+    }
+    SECTION("Open") {
+        auto src_from = "m 0,0 c 20,0 40,40 100,0";
+        auto src_to = "m 0,20 c 20,0 30,-10 80,-20";
+        auto src_avg = "m 0,10 c 20,0 35,25 90,0";
+        auto path_from = svg_to_knots(src_from);
+        auto path_to = svg_to_knots(src_to);
+        path_from.knots[0].uid = path_to.knots[0].uid = "main";
         test_average(path_from, path_to);
     }
 }
