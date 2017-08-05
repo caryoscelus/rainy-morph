@@ -100,7 +100,6 @@ std::vector<I> get_indexes(I prev, I curr, I amount) {
 }
 
 void calculate_split(std::vector<Geom::PathTime>& result, std::vector<size_t> indexes, unsigned split) {
-    std::cerr << "calculate split " << split << std::endl;
     for (auto index : indexes) {
         for (unsigned i = 1; i < split; ++i) {
             result.push_back(index + 1.0*i/split);
@@ -136,7 +135,6 @@ void prepare_average(BezierKnots const& a, BezierKnots const& b, BezierKnots& ta
     auto key_a = std::begin(keys_a);
     auto key_b = std::begin(keys_b);
     for (; key_a != std::end(keys_a); ++key_a, ++key_b) {
-        std::cerr << key_a->first << ", " << prev_a << std::endl;
         std::vector<size_t> indexes_a = get_indexes(prev_a, key_a->second, a.size());
         std::vector<size_t> indexes_b = get_indexes(prev_b, key_b->second, b.size());
         auto a_size = indexes_a.size();
