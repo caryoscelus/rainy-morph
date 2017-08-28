@@ -1,5 +1,5 @@
 /*
- *  rectangle.h - Rectangle shape
+ *  circle.h - Empty Shape
  *  Copyright (C) 2017 caryoscelus
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -16,8 +16,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __GEOM_HELPERS__RECTANGLE_H__CB6A232E
-#define __GEOM_HELPERS__RECTANGLE_H__CB6A232E
+#ifndef __GEOM_HELPERS__CIRCLE_H__1B437DBE
+#define __GEOM_HELPERS__CIRCLE_H__1B437DBE
 
 #include <ostream>
 #include <algorithm>
@@ -26,36 +26,24 @@
 
 namespace Geom {
 
-class Rectangle {
+class Circle {
 public:
-    Rectangle(Geom::Point pos_, Geom::Point size_) :
+    Circle(Geom::Point pos_, double radius_) :
         pos(pos_),
-        size(size_)
+        radius(radius_)
     {}
-    Rectangle(Geom::Point size) :
-        Rectangle({0, 0}, size)
+    Circle(double radius) :
+        Circle({0, 0}, radius)
     {}
-    Rectangle() :
-        Rectangle({0, 0})
+    Circle() :
+        Circle(0)
     {}
-public:
-    static Rectangle fromTwoPoints(Geom::Point a, Geom::Point b) {
-        auto pos = Geom::Point(
-            std::min(a.x(), b.x()),
-            std::min(a.y(), b.y())
-        );
-        auto size = Geom::Point(
-            std::max(a.x(), b.x()),
-            std::max(a.y(), b.y())
-        ) - pos;
-        return Rectangle(pos, size);
-    }
 public:
     Geom::Point pos;
-    Geom::Point size;
+    double radius;
 };
 
-std::ostream& operator<<(std::ostream& stream, Rectangle const& rect);
+std::ostream& operator<<(std::ostream& stream, Circle const& circle);
 
 }
 

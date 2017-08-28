@@ -23,6 +23,7 @@
 
 #include <geom_helpers/point_io.h>
 #include <geom_helpers/rectangle.h>
+#include <geom_helpers/circle.h>
 
 using namespace fmt::literals;
 
@@ -45,6 +46,10 @@ Point parse_point(std::string const& string) {
 
 std::ostream& operator<<(std::ostream& stream, Rectangle const& rect) {
     return stream << "Rectangle(pos={}, size={})"_format(rect.pos, rect.size);
+}
+
+std::ostream& operator<<(std::ostream& stream, Circle const& circle) {
+    return stream << "Circle(pos={}, radius={})"_format(circle.pos, circle.radius);
 }
 
 } // namespace Geom
