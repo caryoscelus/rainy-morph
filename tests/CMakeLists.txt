@@ -1,4 +1,4 @@
-set(SINGLE_TEST_BINARY ON CACHE BOOL "Create single binary for all tests")
+set(SINGLE_TEST_BINARY OFF CACHE BOOL "Create single binary for all tests")
 
 set(ALL_TESTS
     morph
@@ -12,15 +12,19 @@ if (${SINGLE_TEST_BINARY})
     target_link_libraries(test_all morphing)
     target_include_directories(test_all
         SYSTEM BEFORE PUBLIC
-#             ${LIB2GEOM_INCLUDE_DIRS}
             ${CATCH_INCLUDE_DIRS}
     )
-#     target_link_libraries(test_all ${LIB2GEOM_LIBRARIES})
     add_test(test_all test_all)
 else()
-    message(SEND_ERROR "Multiple test binaries support is not ready")
-#     foreach (TEST_NAME ${ALL_TESTS})
-#         add_executable(${TEST_NAME} main.cpp ${TEST_NAME})
-#         
-#     endforeach()
+    foreach (TEST_NAME ${ALL_TESTS})
+        add_executable(${TEST_NAME} main.cpp ${TEST_NAME}.cpp)
+        target_link_libraries(${TEST_NAME} fmt)
+        target_link_libraries(${TEST_NAME} geom_helpers)
+        target_link_libraries(${TEST_NAME} morphing)
+        target_include_directories(${TEST_NAME}
+            SYSTEM BEFORE PUBLIC
+                ${CATCH_INCLUDE_DIRS}
+        )
+        add_test(${TEST_NAME} ${TEST_NAME})
+    endforeach()
 endif()
