@@ -37,13 +37,13 @@ struct Knot {
     static Knot from_absolute(Point pos, Point atg1, Point atg2, Id uid="") {
         return Knot(pos, atg1-pos, atg2-pos, uid);
     }
-    inline bool operator==(Knot const& other) const {
+    bool operator==(Knot const& other) const {
         return pos == other.pos
             && tg1 == other.tg1
             && tg2 == other.tg2
             && uid == other.uid;
     }
-    inline bool operator!=(Knot const& other) const {
+    bool operator!=(Knot const& other) const {
         return !(*this == other);
     }
 };
@@ -56,28 +56,34 @@ public:
     explicit BezierKnots(std::vector<Knot> knots_, bool closed_=true) :
         knots(knots_), closed(closed_)
     {}
-public:
-    inline bool operator==(BezierKnots const& other) const {
+
+    bool operator==(BezierKnots const& other) const {
         return closed == other.closed
             && knots == other.knots;
     }
-    inline bool operator!=(BezierKnots const& other) const {
+    bool operator!=(BezierKnots const& other) const {
         return !(*this == other);
     }
-public:
-    inline size_t size() const {
+
+    template <typename... Ts>
+    void emplace_back(Ts&&... args) {
+        knots.emplace_back(std::forward<Ts>(args)...);
+    }
+
+    size_t size() const {
         return knots.size();
     }
-    inline bool empty() const {
+    bool empty() const {
         return size() == 0;
     }
-    inline Knot const& first() const {
+    Knot const& first() const {
         // TODO: throw?
         return knots[0];
     }
-    inline Knot const& last() const {
+    Knot const& last() const {
         return knots[size()-1];
     }
+
 public:
     std::vector<Knot> knots;
     bool closed;
