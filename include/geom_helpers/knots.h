@@ -83,6 +83,12 @@ public:
     Knot const& last() const {
         return knots[size()-1];
     }
+    Knot& first() {
+        return knots[0];
+    }
+    Knot& last() {
+        return knots[size()-1];
+    }
 
 public:
     std::vector<Knot> knots;
