@@ -1,5 +1,4 @@
-/*
- *  knots.h - Geom paths <-> bezier knots conversion
+/*  knots.h - Geom paths <-> bezier knots conversion
  *  Copyright (C) 2017 caryoscelus
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -16,8 +15,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __GEOM_HELPERS__KNOTS_H__B3B45F40
-#define __GEOM_HELPERS__KNOTS_H__B3B45F40
+#ifndef GEOM_HELPERS_KNOTS_H_4FAE1DD9_9BA9_5F2C_91C9_8B79D2006BE6
+#define GEOM_HELPERS_KNOTS_H_4FAE1DD9_9BA9_5F2C_91C9_8B79D2006BE6
 
 #include <2geom/path.h>
 
@@ -29,14 +28,20 @@ struct Knot {
     Point tg1;
     Point tg2;
     Id uid;
-    Knot()
-    {}
+
+    /// Implicit empty default constructor
+    Knot() = default;
+
+    /// Construct from point and it's tangents (in relative coords)
     explicit Knot(Point pos_, Point tg1_=Point(), Point tg2_=Point(), Id uid_="") :
         pos(pos_), tg1(tg1_), tg2(tg2_), uid(uid_)
     {}
+
+    /// Construct from absolute coordinates
     static Knot from_absolute(Point pos, Point atg1, Point atg2, Id uid="") {
         return Knot(pos, atg1-pos, atg2-pos, uid);
     }
+
     bool operator==(Knot const& other) const {
         return pos == other.pos
             && tg1 == other.tg1
@@ -50,9 +55,12 @@ struct Knot {
 
 class BezierKnots {
 public:
+    /// Implicit default constructor - empty path
     BezierKnots() :
         BezierKnots{{}}
     {}
+
+    /// Explicit constructor from knot vector
     explicit BezierKnots(std::vector<Knot> knots_, bool closed_=true) :
         knots(knots_), closed(closed_)
     {}
