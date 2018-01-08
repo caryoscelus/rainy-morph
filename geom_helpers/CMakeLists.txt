@@ -3,6 +3,7 @@ add_library(geom_helpers SHARED
     knots.cpp
     split.cpp
     io.cpp
+    bones.cpp
 )
 
 target_include_directories(geom_helpers

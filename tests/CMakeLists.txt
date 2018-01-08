@@ -12,3 +12,6 @@ target_link_libraries(test_convert geom_helpers)
 
 add_catch_test(morph)
 target_link_libraries(test_morph morphing)
+
+add_catch_test(bones)
+target_link_libraries(test_bones geom_helpers)
